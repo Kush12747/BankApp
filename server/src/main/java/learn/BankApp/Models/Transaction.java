@@ -2,20 +2,26 @@ package learn.BankApp.Models;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import jakarta.persistence.*;
 
+@Entity
+@Table(name="transactions")
 public class Transaction {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int txnId;
+
     private int accountId;
     private String transactionType;
-    private BigDecimal amount;
+    private double amount;
     private LocalDateTime createdAt;
 
-    public Transaction(int txnId, int accountId, String transactionType, BigDecimal amount, LocalDateTime createdAt) {
-        this.txnId = txnId;
+    public Transaction(int accountId, String transactionType, double amount) {
         this.accountId = accountId;
         this.transactionType = transactionType;
         this.amount = amount;
-        this.createdAt = createdAt;
+        this.createdAt = LocalDateTime.now();
     }
 
     public Transaction() {
@@ -45,11 +51,11 @@ public class Transaction {
         this.transactionType = transactionType;
     }
 
-    public BigDecimal getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 

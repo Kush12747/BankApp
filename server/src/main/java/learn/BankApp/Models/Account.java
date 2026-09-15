@@ -1,22 +1,26 @@
 package learn.BankApp.Models;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import jakarta.persistence.*;
 
+@Entity
+@Table(name="accounts")
 public class Account {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int accountId;
+
     private int userId;
-    private BigDecimal balance;
+    private double balance;
     private String accountType;
     private LocalDateTime createdAt;
 
-    public Account(int accountId, int userId, BigDecimal balance, String accountType, LocalDateTime createdAt) {
-        this.accountId = accountId;
+    public Account(int userId, double balance, String accountType) {
         this.userId = userId;
         this.balance = balance;
         this.accountType = accountType;
-        this.createdAt = createdAt;
+        this.createdAt = LocalDateTime.now();
     }
 
     public Account() {
@@ -38,11 +42,11 @@ public class Account {
         this.userId = userId;
     }
 
-    public BigDecimal getBalance() {
+    public double getBalance() {
         return balance;
     }
 
-    public void setBalance(BigDecimal balance) {
+    public void setBalance(double balance) {
         this.balance = balance;
     }
 

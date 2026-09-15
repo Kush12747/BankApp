@@ -1,10 +1,16 @@
 package learn.BankApp.Models;
 
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "users")
 public class User {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int userId;
+
     private String name;
     private String email;
     private LocalDateTime createdAt;
@@ -12,21 +18,10 @@ public class User {
     public User(String name, String email) {
         this.name = name;
         this.email = email;
+        this.createdAt = LocalDateTime.now();
     }
 
     public User() {
-    }
-
-    public User(
-            int userId,
-            String name,
-            String email,
-            LocalDateTime createdAt
-    ) {
-        this.userId = userId;
-        this.name = name;
-        this.email = email;
-        this.createdAt = createdAt;
     }
 
     public int getUserId() {
