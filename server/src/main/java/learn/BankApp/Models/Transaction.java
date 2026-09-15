@@ -1,20 +1,24 @@
 package learn.BankApp.Models;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public class Transaction {
     private int txnId;
     private int accountId;
     private String transactionType;
-    private double amount;
+    private BigDecimal amount;
     private LocalDateTime createdAt;
 
-    public Transaction(int txnId, int accountId, String transactionType, double amount, LocalDateTime createdAt) {
+    public Transaction(int txnId, int accountId, String transactionType, BigDecimal amount, LocalDateTime createdAt) {
         this.txnId = txnId;
         this.accountId = accountId;
         this.transactionType = transactionType;
         this.amount = amount;
         this.createdAt = createdAt;
+    }
+
+    public Transaction() {
     }
 
     public int getTransactionId() {
@@ -41,11 +45,11 @@ public class Transaction {
         this.transactionType = transactionType;
     }
 
-    public double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(BigDecimal amount) {
         this.amount = amount;
     }
 

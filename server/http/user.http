@@ -1,0 +1,24 @@
+@base_url = http://localhost:8080/api/users
+
+## get all users
+GET {{base_url}}
+
+###
+
+## get user by id
+GET {{base_url}}/1
+
+###
+
+## Create a new user
+POST {{base_url}}
+Content-Type: application/json
+
+{
+  "userId": 2,
+  "name": "Jane Doe",
+  "email": "jane@gmail.com",
+  "createdAt": "2026-09-15T12:00:00"
+}
+###
+

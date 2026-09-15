@@ -19,6 +19,9 @@ public class Account {
         this.createdAt = createdAt;
     }
 
+    public Account() {
+    }
+
     public int getAccountId() {
         return accountId;
     }
