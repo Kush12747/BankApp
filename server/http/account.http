@@ -20,18 +20,12 @@ Content-Type: application/json
 ###
 
 ## Deposit money
-POST {{base_url}}/1/deposit
-Content-Type: application/json
-
-200
+POST {{base_url}}/1/deposit/200
 
 ###
 
 ## Withdraw money
-POST {{base_url}}/1/withdraw
-Content-Type: application/json
-
-100
+POST {{base_url}}/1/withdraw/100
 
 ###
 

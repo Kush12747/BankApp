@@ -28,13 +28,13 @@ public class AccountController {
         return accountService.createAccount(account);
     }
 
-    @PostMapping("/{accountId}/deposit")
-    public Account deposit(@PathVariable int accountId, @RequestBody BigDecimal deposit) {
+    @PostMapping("/{accountId}/deposit/{deposit}")
+    public Account deposit(@PathVariable int accountId, @PathVariable BigDecimal deposit) {
         return accountService.deposit(accountId, deposit);
     }
 
-    @PostMapping("/{accountId}/withdraw")
-    public Account withdraw(@PathVariable int accountId, @RequestBody BigDecimal withdraw) {
+    @PostMapping("/{accountId}/withdraw/{withdraw}")
+    public Account withdraw(@PathVariable int accountId, @PathVariable BigDecimal withdraw) {
         return accountService.withdraw(accountId, withdraw);
     }
 
