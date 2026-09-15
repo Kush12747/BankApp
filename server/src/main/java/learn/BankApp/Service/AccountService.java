@@ -2,71 +2,75 @@ package learn.BankApp.Service;
 
 import learn.BankApp.Models.Account;
 import learn.BankApp.Models.Transaction;
+import learn.BankApp.Repository.AccountRepository;
+import learn.BankApp.Repository.TransactionRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class AccountService {
-    private List<Account> accounts = new ArrayList<>();
-    private final List<Transaction> transactions = new ArrayList<>();
 
-    public AccountService() {
-        accounts.add(new Account(1, 1, new BigDecimal(100), "Checking", LocalDateTime.now()));
+    private final AccountRepository accountRepository;
+    private final TransactionRepository transactionRepository;
+
+    public AccountService(AccountRepository accountRepository, TransactionRepository transactionRepository) {
+        this.accountRepository = accountRepository;
+        this.transactionRepository = transactionRepository;
     }
 
     public Account getAccount(int accountId) {
-        return accounts.stream()
-                .filter(account -> account.getAccountId() == accountId)
-                .findFirst()
-                .orElse(null);
+        return accountRepository.findById(accountId)
+                .orElseThrow(() -> new IllegalArgumentException("Account not found"));
     }
 
     public Account createAccount(Account account) {
-        accounts.add(account);
+        return accountRepository.save(account);
+    }
+
+    @Transactional
+    public Account deposit(int accountId, double amount) {
+        Account account = getAccount(accountId);
+
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Amount must be greater than 0.");
+        }
+
+        double addBalance = account.getBalance() + amount;
+        account.setBalance(addBalance);
+
+        Transaction transaction = new Transaction(accountId, "Deposit", amount);
+
+        transactionRepository.save(transaction);
+
         return account;
     }
 
-    public Account deposit(int accountId, BigDecimal amount) {
+    @Transactional
+    public Account withdraw(int accountId, double amount) {
         Account account = getAccount(accountId);
 
-        if (account == null) {
-            throw new IllegalArgumentException("No account detected");
-        }
-
-        account.setBalance(account.getBalance().add(amount));
-
-        transactions.add(new Transaction(1, accountId, "Deposit", amount, LocalDateTime.now()));
-
-        return account;
-    }
-
-
-    public Account withdraw(int accountId, BigDecimal amount) {
-        Account account = getAccount(accountId);
-
-        if (account == null) {
-            throw new IllegalArgumentException("No account detected");
-        }
-
-        if (account.getBalance().compareTo(amount) < 0) {
+        if (account.getBalance() < amount) {
             throw new IllegalArgumentException("Insufficient funds");
         }
 
-        account.setBalance(account.getBalance().subtract(amount));
+        if (amount <= 0) {
+            throw new IllegalArgumentException("Amount must be greater than 0.");
+        }
 
-        transactions.add(new Transaction(2, accountId, "Withdraw", amount, LocalDateTime.now()));
+        double subtractBalance = account.getBalance() - amount;
+        account.setBalance(subtractBalance);
+
+        Transaction transaction = new Transaction(accountId, "Withdraw", amount);
+
+        transactionRepository.save(transaction);
 
         return account;
     }
 
     public List<Transaction> getTransactions(int accountId) {
-        return transactions.stream()
-                .filter(transaction -> transaction.getAccountId() == accountId)
-                .toList();
+        return transactionRepository.findByAccountId(accountId);
     }
 
 }
