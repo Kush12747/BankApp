@@ -26,4 +26,18 @@ public class UserService {
     public User createUser(User user) {
         return userRepository.save(user);
     }
+
+    public User updateUser(String id, User updatedUser) {
+        User existingUser = getUserById(id);
+
+        existingUser.setName(updatedUser.getName());
+        existingUser.setEmail(updatedUser.getEmail());
+
+        return userRepository.save(existingUser);
+    }
+
+    public void deleteUser(String id) {
+        User user = getUserById(id);
+        userRepository.delete(user);
+    }
 }

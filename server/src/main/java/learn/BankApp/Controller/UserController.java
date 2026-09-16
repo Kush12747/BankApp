@@ -2,6 +2,8 @@ package learn.BankApp.Controller;
 
 import learn.BankApp.Models.User;
 import learn.BankApp.Service.UserService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,17 +19,36 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getUsers() {
-        return userService.getAllUsers();
+    public ResponseEntity<List<User>> getUsers() {
+        List<User> users = userService.getAllUsers();
+
+        return ResponseEntity.ok(users);
     }
 
     @GetMapping("/{userId}")
-    public User getUser(@PathVariable String userId) {
-        return userService.getUserById(userId);
+    public ResponseEntity<User> getUser(@PathVariable String userId) {
+
+        User user = userService.getUserById(userId);
+
+        return ResponseEntity.ok(user);
     }
 
     @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userService.createUser(user);
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        User createUser = userService.createUser(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createUser);
+    }
+
+    @PutMapping("/{userId}")
+    public ResponseEntity<User> updatedUser(@PathVariable String userId, @RequestBody User user) {
+        User updatedUser = userService.updateUser(userId, user);
+
+        return ResponseEntity.ok(updatedUser);
+    }
+
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<Void> deleteUser(@PathVariable String userId) {
+        userService.deleteUser(userId);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -3,6 +3,8 @@ package learn.BankApp.Controller;
 import learn.BankApp.Models.Account;
 import learn.BankApp.Models.Transaction;
 import learn.BankApp.Service.AccountService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,33 +20,33 @@ public class AccountController {
     }
 
     @GetMapping("/{accountId}")
-    public Account getAccount(@PathVariable String accountId) {
-        return accountService.getAccount(accountId);
+    public ResponseEntity<Account> getAccount(@PathVariable String accountId) {
+        Account account = accountService.getAccount(accountId);
+        return ResponseEntity.ok(account);
     }
 
     @PostMapping
-    public Account createAccount(@RequestBody Account account) {
-        return accountService.createAccount(account);
+    public ResponseEntity<Account> createAccount(@RequestBody Account account) {
+        Account createAccount = accountService.createAccount(account);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createAccount);
     }
 
     @PostMapping("/{accountId}/deposit/{amount}")
-    public Account deposit(@PathVariable String accountId,
-                           @PathVariable double amount) {
-
-        return accountService.deposit(accountId, amount);
+    public ResponseEntity<Account> deposit(@PathVariable String accountId, @PathVariable double amount) {
+        Account updatedAccount = accountService.deposit(accountId, amount);
+        return ResponseEntity.ok(updatedAccount);
     }
 
     @PostMapping("/{accountId}/withdraw/{amount}")
-    public Account withdraw(@PathVariable String accountId,
-                            @PathVariable double amount) {
-
-        return accountService.withdraw(accountId, amount);
+    public ResponseEntity<Account> withdraw(@PathVariable String accountId, @PathVariable double amount) {
+        Account updatedAccount = accountService.withdraw(accountId, amount);
+        return ResponseEntity.ok(updatedAccount);
     }
 
     @GetMapping("/{accountId}/transactions")
-    public List<Transaction> getTransactions(
-            @PathVariable String accountId) {
+    public ResponseEntity<List<Transaction>> getTransactions(@PathVariable String accountId) {
+        List<Transaction> transactionList = accountService.getTransactions(accountId);
 
-        return accountService.getTransactions(accountId);
+        return ResponseEntity.ok(transactionList);
     }
 }
