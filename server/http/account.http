@@ -1,33 +1,31 @@
 @base_url = http://localhost:8080/api/accounts
 
-## get accout details
-GET {{base_url}}/1
+### Get Account Details
+GET {{base_url}}/6aaab27131ff376d7baa5649
 
 ###
 
-## create account
-POST {{base_url}}
+### Create Account
+POST http://localhost:8080/api/accounts
 Content-Type: application/json
 
 {
-  "accountId": 101,
-  "userId": 1,
+  "userId": "6aaab013599f3711e0fc059c",
   "balance": 0,
-  "accountType": "SAVINGS",
-  "createdAt": "2026-09-15T12:00:00"
+  "accountType": "SAVINGS"
 }
 
 ###
 
-## Deposit money
-POST {{base_url}}/1/deposit/200
+### Deposit Money
+POST {{base_url}}/6aaab27131ff376d7baa5649/deposit/200
 
 ###
 
-## Withdraw money
-POST {{base_url}}/1/withdraw/100
+### Withdraw Money
+POST {{base_url}}/6aaab27131ff376d7baa5649/withdraw/100
 
 ###
 
-## Get transaction history
-GET {{base_url}}/1/transactions
+### Get Transaction History
+GET {{base_url}}/6aaab27131ff376d7baa5649/transactions

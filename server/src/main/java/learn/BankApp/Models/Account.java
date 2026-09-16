@@ -1,22 +1,22 @@
 package learn.BankApp.Models;
 
-import java.time.LocalDateTime;
-import jakarta.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
-@Table(name="accounts")
+import java.time.LocalDateTime;
+
+@Document(collection = "account")
 public class Account {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int accountId;
+    private String accountId;
 
-    private int userId;
+    private String userId;
     private double balance;
     private String accountType;
     private LocalDateTime createdAt;
 
-    public Account(int userId, double balance, String accountType) {
+    public Account(String userId, double balance, String accountType) {
         this.userId = userId;
         this.balance = balance;
         this.accountType = accountType;
@@ -26,19 +26,19 @@ public class Account {
     public Account() {
     }
 
-    public int getAccountId() {
+    public String getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(int accountId) {
+    public void setAccountId(String accountId) {
         this.accountId = accountId;
     }
 
-    public int getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

@@ -5,7 +5,6 @@ import learn.BankApp.Models.Transaction;
 import learn.BankApp.Service.AccountService;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -19,7 +18,7 @@ public class AccountController {
     }
 
     @GetMapping("/{accountId}")
-    public Account getAccount(@PathVariable int accountId) {
+    public Account getAccount(@PathVariable String accountId) {
         return accountService.getAccount(accountId);
     }
 
@@ -28,18 +27,24 @@ public class AccountController {
         return accountService.createAccount(account);
     }
 
-    @PostMapping("/{accountId}/deposit/{deposit}")
-    public Account deposit(@PathVariable int accountId, @PathVariable BigDecimal deposit) {
-        return accountService.deposit(accountId, deposit);
+    @PostMapping("/{accountId}/deposit/{amount}")
+    public Account deposit(@PathVariable String accountId,
+                           @PathVariable double amount) {
+
+        return accountService.deposit(accountId, amount);
     }
 
-    @PostMapping("/{accountId}/withdraw/{withdraw}")
-    public Account withdraw(@PathVariable int accountId, @PathVariable BigDecimal withdraw) {
-        return accountService.withdraw(accountId, withdraw);
+    @PostMapping("/{accountId}/withdraw/{amount}")
+    public Account withdraw(@PathVariable String accountId,
+                            @PathVariable double amount) {
+
+        return accountService.withdraw(accountId, amount);
     }
 
-    @GetMapping("/{id}/transactions")
-    public List<Transaction> getTransactions(@PathVariable int id) {
-        return accountService.getTransactions(id);
+    @GetMapping("/{accountId}/transactions")
+    public List<Transaction> getTransactions(
+            @PathVariable String accountId) {
+
+        return accountService.getTransactions(accountId);
     }
 }

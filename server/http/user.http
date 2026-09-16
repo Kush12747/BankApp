@@ -1,24 +1,22 @@
 @base_url = http://localhost:8080/api/users
 
-## get all users
+### Get All Users
 GET {{base_url}}
 
 ###
 
-## get user by id
-GET {{base_url}}/1
+### Get User By ID
+GET {{base_url}}/6aaab013599f3711e0fc059c
 
 ###
 
-## Create a new user
-POST {{base_url}}
+### Create User
+POST http://localhost:8080/api/users
 Content-Type: application/json
 
 {
-  "userId": 2,
   "name": "Jane Doe",
-  "email": "jane@gmail.com",
-  "createdAt": "2026-09-15T12:00:00"
+  "email": "jane@gmail.com"
 }
-###
 
+###

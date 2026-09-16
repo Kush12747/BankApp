@@ -1,23 +1,22 @@
 package learn.BankApp.Models;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import jakarta.persistence.*;
 
-@Entity
-@Table(name="transactions")
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "transactions")
 public class Transaction {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int txnId;
+    private String txnId;
 
-    private int accountId;
+    private String accountId;
     private String transactionType;
     private double amount;
     private LocalDateTime createdAt;
 
-    public Transaction(int accountId, String transactionType, double amount) {
+    public Transaction(String accountId, String transactionType, double amount) {
         this.accountId = accountId;
         this.transactionType = transactionType;
         this.amount = amount;
@@ -27,19 +26,19 @@ public class Transaction {
     public Transaction() {
     }
 
-    public int getTransactionId() {
+    public String getTransactionId() {
         return txnId;
     }
 
-    public void setTransactionId(int txnId) {
+    public void setTransactionId(String txnId) {
         this.txnId = txnId;
     }
 
-    public int getAccountId() {
+    public String getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(int accountId) {
+    public void setAccountId(String accountId) {
         this.accountId = accountId;
     }
 

@@ -5,7 +5,6 @@ import learn.BankApp.Models.Transaction;
 import learn.BankApp.Repository.AccountRepository;
 import learn.BankApp.Repository.TransactionRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -20,7 +19,7 @@ public class AccountService {
         this.transactionRepository = transactionRepository;
     }
 
-    public Account getAccount(int accountId) {
+    public Account getAccount(String accountId) {
         return accountRepository.findById(accountId)
                 .orElseThrow(() -> new IllegalArgumentException("Account not found"));
     }
@@ -29,8 +28,7 @@ public class AccountService {
         return accountRepository.save(account);
     }
 
-    @Transactional
-    public Account deposit(int accountId, double amount) {
+    public Account deposit(String accountId, double amount) {
         Account account = getAccount(accountId);
 
         if (amount <= 0) {
@@ -42,21 +40,21 @@ public class AccountService {
 
         Transaction transaction = new Transaction(accountId, "Deposit", amount);
 
+        accountRepository.save(account);
         transactionRepository.save(transaction);
 
         return account;
     }
 
-    @Transactional
-    public Account withdraw(int accountId, double amount) {
+    public Account withdraw(String accountId, double amount) {
         Account account = getAccount(accountId);
-
-        if (account.getBalance() < amount) {
-            throw new IllegalArgumentException("Insufficient funds");
-        }
 
         if (amount <= 0) {
             throw new IllegalArgumentException("Amount must be greater than 0.");
+        }
+
+        if (account.getBalance() < amount) {
+            throw new IllegalArgumentException("Insufficient funds");
         }
 
         double subtractBalance = account.getBalance() - amount;
@@ -66,10 +64,10 @@ public class AccountService {
 
         transactionRepository.save(transaction);
 
-        return account;
+        return accountRepository.save(account);
     }
 
-    public List<Transaction> getTransactions(int accountId) {
+    public List<Transaction> getTransactions(String accountId) {
         return transactionRepository.findByAccountId(accountId);
     }
 
